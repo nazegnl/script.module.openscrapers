@@ -181,7 +181,7 @@ class source:
             ref_url = url
             mid = re.findall('-(\d*)\.', url)[0]
             data = {'id': mid}
-            r = self.scraper.post(url, headers=headers)
+            r = self.scraper.post(url, headers=headers).content
             try:
                 u = urlparse.urljoin(self.base_link, self.server_link % mid)
                 r = self.scraper.get(u, headers=mozhdr).content
@@ -235,9 +235,10 @@ class source:
                             length = 0
                             count = 0
                             while length == 0 and count < 11:
-                                r = self.scraper.get(u, headers=headers).text
+                                r = self.scraper.get(u, headers=headers).content
                                 length = len(r)
-                                if length == 0: count += 1
+                                if length == 0:
+                                    count += 1
                             uri = None
                             uri = json.loads(r)['playlist'][0]['sources']
                             try:

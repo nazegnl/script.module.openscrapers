@@ -22,7 +22,8 @@
 # Addon Provider: Mr.blamo
 
 import requests
-from openscrapers.modules import source_utils, client
+from openscrapers.modules import client
+from openscrapers.modules import source_utils
 
 
 class source:
@@ -64,9 +65,8 @@ class source:
                     if query == str(test):
                         link = client.parseDOM(result, 'a', ret='href')[0]
                         return link
-        except Exception, e:
-            print
-            str(e)
+        except Exception as e:
+            print(str(e))
             return
 
     def getlink(self, link):
@@ -107,9 +107,8 @@ class source:
             test2 = result.find('\\" class=')
             result = result[test:test2]
             return result
-        except Exception, e:
-            print
-            str(e)
+        except Exception as e:
+            print(str(e))
             return
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
@@ -164,9 +163,8 @@ class source:
                                         'direct': False, 'debridonly': False})
             debug = 1;
             return sources
-        except Exception, e:
-            print
-            str(e)
+        except Exception as e:
+            print(str(e))
             return sources
 
     def resolve(self, url):
