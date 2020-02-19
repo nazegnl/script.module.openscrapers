@@ -92,7 +92,7 @@ else:
     for show in resp:
         seasons = requests.get(trakt_episodes_url % show['ids']['trakt'], headers=trakt_headers)
         seasons = json.loads(seasons.text)
-        episodes = [episode for season in seasons  if 'episodes' in season for episode in season['episodes'] if
+        episodes = [episode for season in seasons if 'episodes' in season for episode in season['episodes'] if
                     season['number'] != 0]
         random.shuffle(episodes)
         episode = episodes[0]
@@ -102,7 +102,8 @@ else:
                              'tvshowtitle': show['title'], 'localtvshowtitle': show['title'], 'aliases': [],
                              'year': show['year'], 'imdb': episode['ids']['imdb'],
                              'tvdb': episode['ids']['tvdb'], 'title': episode['title'],
-                             'premiered': seasons[int(episode['season'])-1]['first_aired'], 'season': episode['season'],
+                             'premiered': seasons[int(episode['season']) - 1]['first_aired'],
+                             'season': episode['season'],
                              'episode': episode['number']})
 
 RUNNING_PROVIDERS = []
@@ -112,7 +113,7 @@ FAILED_PROVIDERS = []
 PASSED_PROVIDERS = []
 workers = []
 TOTAL_RUNTIME = 0
-TIMEOUT = 10
+TIMEOUT = 120
 
 hosts = [u'1fichier.com', u'24hd.club', u'2shared.com', u'4shared.com', u'adultswim.com', u'alfafile.net', u'aliez.me',
          u'amazon.com', u'ani-stream.com', u'anyfiles.pl', u'api.video.mail.ru', u'bestream.tv', u'big4shared.com',
@@ -302,7 +303,7 @@ if __name__ == '__main__':
             if TOTAL_RUNTIME > TIMEOUT and TIMEOUT_MODE:
                 break
             print('Running Providers [%s]: %s' % (len(RUNNING_PROVIDERS),
-                                                 ' | '.join([i.upper() for i in RUNNING_PROVIDERS])))
+                                                  ' | '.join([i.upper() for i in RUNNING_PROVIDERS])))
             time.sleep(1)
             TOTAL_RUNTIME += 1
     else:
@@ -375,7 +376,8 @@ if __name__ == '__main__':
                 try:
                     if i[1] is not None:
                         output.write('%s,%s,%s,%s\n' % (
-                            i[0], len([] if i[1] is None else i[1]), i[2], ','.join(str(x) for x in list(i[3].values()))))
+                            i[0], len([] if i[1] is None else i[1]), i[2],
+                            ','.join(str(x) for x in list(i[3].values()))))
                 except:
                     pass
 
